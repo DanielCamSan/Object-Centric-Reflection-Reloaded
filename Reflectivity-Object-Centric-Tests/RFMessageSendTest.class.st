@@ -72,13 +72,13 @@ RFMessageSendTest >> testMessageSendAfter [
 	proxy := b proxifyWithMetaObject: RFProxyMetaObjectAssignmentTest.
 	metaobject := proxy metaObject.
 	Transcript clear.
+	
 	b var1: 1.
 	b var2: 2.
-	self halt.
-	b afterMessageSendTo: #methodsWithAssignments do: [b var1: 8].
-	b methodsWithAssignments.
-	self assert: b result equals: 6.
-	self assert: b var1 equals: 5.
+	b afterMessageSendTo: #sendingMethods do: [b var1: 8].
+	b sendingMethods.
+	self assert: b result equals: 1.
+	self assert: b var1 equals: 8.
 	
 ]
 
@@ -109,9 +109,9 @@ RFMessageSendTest >> testMessageSendInstead [
 	b var1: 1.
 	b var2: 2.
 	b
-		afterMessageSendTo: #onlyAssignmentResult
+		afterMessageSendTo: #methodsWithAssignments
 		do: [ b result: b var1 - b var2 ].
-	b onlyAssignmentResult.
+	b methodsWithAssignments.
 	self assert: b result equals: -1
 ]
 

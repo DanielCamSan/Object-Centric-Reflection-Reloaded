@@ -131,11 +131,10 @@ RFProxyInstrumenter >> instrumentMethod: method selector: selector [
 
 		newMethod := instrumentedClass >> cs.
 		ast := newMethod ast.
-		"self halt."
 		"self redirectSelfArgsIn: ast."
 		self redirectSelfReturnsIn: ast.
 		self redirectVariableAccessesIn: ast.
-		"self redirectMessagesSendIn: ast."
+		self redirectMessagesSendIn: ast.
 		self compiledSelectorsMap
 			at: cs
 			ifPresent: [ :redirectionSelector | 
@@ -299,10 +298,9 @@ RFProxyInstrumenter >> redirectMessagesSendIn: ast [
 
 	| messageSendNode |
 	messageSendNode := ast sendNodes select: [ :node | node receiver isSelfVariable ].
-	self halt.
+
 	messageSendNode do: [ :node | 
 			node link: self newBeforeLinkForMessagesSend.
-			self halt.
 			"node link: self newInsteadLinkForMessagesSend.
 			node link: self newAfterLinkForMessagesSend"
 			 ] 

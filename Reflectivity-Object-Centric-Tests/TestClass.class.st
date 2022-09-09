@@ -52,11 +52,12 @@ TestClass >> assignment2 [
 
 { #category : #operation }
 TestClass >> methodsWithAssignments [
-	var1:= self assignment1.
-	var2:= self assignment2.
- 	result:= 2.
-	result:=  var1 + var2.
-	^ result.
+
+	var1 := self assignment1.
+	var2 := self assignment2.
+	result := 2.
+	result := var1 + var2.
+	^ result
 ]
 
 { #category : #operation }
