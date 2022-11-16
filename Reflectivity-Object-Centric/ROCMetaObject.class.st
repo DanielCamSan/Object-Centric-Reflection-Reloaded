@@ -82,10 +82,8 @@ ROCMetaObject >> executeReflectiveOperationsForAssignment: anOperation [
 ROCMetaObject >> executeReflectiveOperationsForMessageSendOperation: aOperation [
 
 	| timeObject operation |
-	self flag:
-		'WE ARENT DOINGTHE INSTEAD VALUE IN THE RIGHT ORDER WE ARE DOING THE VALUE AFTER THE AFTER'.
-	"operation := aOperation."
-	self metaLevel ifTrue: [ ^ aOperation value "operation value" ].
+
+	self metaLevel ifTrue: [ ^ aOperation value ].
 	self
 		verifyExistenceOn: self registryHandler messageSendRegistry
 		withKey: aOperation selector.
@@ -94,14 +92,13 @@ ROCMetaObject >> executeReflectiveOperationsForMessageSendOperation: aOperation 
 	self metaLevel: true.
 	timeObject before ifNotEmpty: [ 
 		timeObject before do: [ :each | each value ] ].
-	"timeObject instead ifNotNil: [ operation := timeObject instead ]."
 	timeObject instead
 		ifNil: [ operation := aOperation value ]
 		ifNotNil: [ operation := timeObject instead value ].
 	timeObject after ifNotEmpty: [ 
 		timeObject after do: [ :each | each value ] ].
 	self metaLevel: false.
-	^ operation "value"
+	^ operation
 ]
 
 { #category : #execution }
